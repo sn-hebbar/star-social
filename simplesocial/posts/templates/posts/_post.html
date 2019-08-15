@@ -1,0 +1,28 @@
+{% load static %}
+<div class="post media">
+<a href="{% url 'posts:single'  pk=post.pk username=post.user.username %}">
+  <div class="media-body">
+
+    <h3>{{post.message|safe}}</h3>
+    {% if post.image %}<img src="{{post.image.url}}" class="img-thumbnail" alt="Don't know" width="70%">{% endif %}
+
+    <h5 class="media-heading">
+    <span class="username"><a href="{% url 'posts:for_user' username=post.user.username%}"><strong>@{{post.user.username}}</strong></a> </span><br>
+    <time class="time">{{ post.created_at }}</time>
+    {% if post.group %}
+    	<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
+    {% endif %}
+
+    </h5>
+    <div class="media-footer">
+			{% if user.is_authenticated and post.user == user and not hide_delete %}
+				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
+					<span class="fa fa-remove text-danger" aria-hidden="true"></span>
+					<span class="text-danger icon-label">Delete</span>
+				</a>
+			{% endif %}
+      <br>
+		</div>
+  </div>
+</a>
+</div>

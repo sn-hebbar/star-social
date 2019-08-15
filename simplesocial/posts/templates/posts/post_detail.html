@@ -1,0 +1,41 @@
+{% extends "posts/post_base.html" %}
+
+{% block post_content %}
+ <div class="col-md-8">
+    {% include "posts/_post.html" %}
+    <div class="container">
+      {% if user.is_authenticated%}
+    <!--  <form class="post-form" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="save btn btn-default">Post Comment</button>
+      </form>-->
+<!--<hr><a class="btn btn-primary btn-comment"href="{% url 'posts:add_comment_to_post' pk=post.pk %}">Add comment</a>
+-->
+
+      <form class="post-form" method="POST" action="{% url 'posts:add_comment_to_post' pk=post.pk %}">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button type="submit" class="save btn btn-default">Post Comment</button>
+      </form>
+
+
+
+      {% endif %}
+      {% for comment in post.comments.all %}
+        <br>
+        {{comment.text|striptags}}<br>
+        <a href="{% url 'posts:for_user' username=comment.comment_writer.username %}"><strong>@{{comment.comment_writer}}</strong></a>
+        <br>{{comment.created_at}}<br>
+          {% empty %}
+          <p>No Comments!</p>
+
+      {% endfor %}
+    </div>
+ </div>
+ <script>
+     var editor=new MediumEditor('.editable').placeholder='Type your Comment';
+     document.getElementByC
+ </script>
+{% endblock %}
